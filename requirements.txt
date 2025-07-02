@@ -1,0 +1,7 @@
+mss==10.0.0
+numpy==2.3.1
+opencv_python==4.10.0.84
+pykey==0.2
+pywin32==310
+PyYAML==6.0.2
+PyYAML==6.0.2
