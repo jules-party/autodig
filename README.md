@@ -15,6 +15,11 @@
     pip install -r requirements.txt
     ```
 
+3. **Config setup**
+    ```sh
+    mv exconfig.yml config.yml
+    ```
+
 ## Running
 > [!NOTE]
 > I am working on a GUI written using Tkinter for easy use, but for right now you can only run it using the console program

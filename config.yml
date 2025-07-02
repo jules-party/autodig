@@ -1,7 +1,7 @@
 debug: true
 rectangle:
-  h: 126
-  left: 471
-  top: 798
-  w: 975
+  h: 127
+  left: 1099
+  top: 1093
+  w: 1248
 skip_rectangle: false
