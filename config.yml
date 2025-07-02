@@ -1,0 +1,7 @@
+debug: true
+rectangle:
+  h: 126
+  left: 471
+  top: 798
+  w: 975
+skip_rectangle: false
