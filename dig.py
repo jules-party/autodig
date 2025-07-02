@@ -36,13 +36,6 @@ class config:
         
         print("config updated!")
 
-class assets:
-    def __init__(self):
-        self.bar = 0
-
-    def getBar(self):
-        return self.bar
-
 class rectangle:
     def __init__(self, left, top, w, h):
         self.left = left
@@ -66,11 +59,16 @@ class screenSelect(tk.Tk):
 
         self.sx = self.sy = self.rid = None
 
-        self.canvas.bind("<ButtonPress-1>", self.onButtonPress)
-        self.canvas.bind("<B1-Motion>", self.onMouseDrag)
-        self.canvas.bind("<ButtonRelease-1>", self.onButtonRelease)
+        self.canvas.bind("<ButtonPress-1>", self._onButtonPress)
+        self.canvas.bind("<B1-Motion>", self._onMouseDrag)
+        self.canvas.bind("<ButtonRelease-1>", self._onButtonRelease)
+        self.bind("<Escape>", self._quitWindow)
 
-    def onButtonPress(self, event):
+    def _quitWindow(self, event):
+        self.withdraw()
+        sys.exit(0)
+
+    def _onButtonPress(self, event):
         self.sx = event.x_root
         self.sy = event.y_root
 
@@ -79,11 +77,11 @@ class screenSelect(tk.Tk):
         
         self.rid = self.canvas.create_rectangle(self.sx, self.sy, self.sx, self.sy, outline='black', width=5)
 
-    def onMouseDrag(self, event):
+    def _onMouseDrag(self, event):
         cx, cy = event.x_root, event.y_root
         self.canvas.coords(self.rid, self.sx, self.sy, cx, cy)
 
-    def onButtonRelease(self, event):
+    def _onButtonRelease(self, event):
         ex, ey = event.x_root, event.y_root
         left = min(self.sx, ex)
         top = min(self.sy, ey)
@@ -130,7 +128,9 @@ class BarThread(threading.Thread):
     def run(self):
         global img
         black = numpy.array([0, 0, 0, 255])
-        bar_color = numpy.array([25, 25, 25, 255])
+        lwhite = numpy.array([200, 200, 200])
+        white = numpy.array([255, 255, 255])
+        barColor = numpy.array([25, 25, 25, 255])
         sct = mss.mss()
         while not self._stopEvent.is_set():
             if self._robloxFocused():
@@ -156,7 +156,10 @@ class BarThread(threading.Thread):
                     my = int(y + (h / 2))
                     mc = screenshotArr[my, mx]
 
-                    if numpy.array_equal(screenshotArr[my][mx], bar_color) == True:
+                    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                    #cv2.rectangle(img, (mx, my), (mx + 1, my + 1), (255, 0, 0), 2)
+
+                    if numpy.array_equal(screenshotArr[my][mx], barColor) == True:
                         pyKey.press(key="SPACEBAR", sec=0)
 
     def stop(self):
